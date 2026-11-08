@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharekati Loans</title>
+<style>
+:root{
+ --bg:#0b1010;--panel:#121b19;--panel2:#17221f;--line:#263530;
+ --text:#edf5f1;--muted:#91a49b;--green:#25c58a;--green2:#14865f;
+ --red:#f07878;--yellow:#e9bd61;--blue:#79aee8;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.topbar{height:66px;background:#101816;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.3px}
+.brand-mark{width:36px;height:36px;border-radius:12px;background:var(--green);color:#07140f;display:grid;place-items:center;font-size:19px;font-weight:900}
+.brand small{display:block;color:var(--muted);font-size:10px;font-weight:400;margin-top:3px}
+.top-right{display:flex;align-items:center;gap:12px}
+.top-user{font-size:12px;color:var(--muted)}
+.page{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+.auth-wrap{max-width:460px;margin:42px auto}
+.auth-card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:23px}
+.auth-card h1{font-size:25px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.field{margin:17px 0}
+.field label{display:block;font-size:12px;color:#b5c5bd;margin-bottom:8px}
+input,select{width:100%;background:#0d1512;color:var(--text);border:1px solid #34443d;border-radius:10px;padding:13px;outline:none}
+input:focus,select:focus{border-color:var(--green)}
+input[type=file]{font-size:12px}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:13px;background:var(--green);color:#07150f}
+.btn:hover{filter:brightness(1.08)}
+.btn.secondary{background:#24342e;color:var(--text);border:1px solid #354a40}
+.btn.danger{background:#492525;color:#ffbaba;border:1px solid #713737}
+.btn.small{padding:8px 11px;font-size:11px}
+.btn.full{width:100%}
+.text-btn{background:none;border:0;color:var(--green);padding:8px 0;font-size:13px}
+.tabs{display:flex;background:#0c1411;border:1px solid var(--line);padding:4px;border-radius:11px;margin:20px 0}
+.tabs button{flex:1;border:0;background:transparent;color:var(--muted);padding:10px;border-radius:8px}
+.tabs button.active{background:#20372d;color:#a8f1d2}
+.hero{margin-bottom:24px}
+.hero h1{font-size:27px;margin:0 0 7px}
+.hero p{margin:0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:22px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px}
+.stat-label{color:var(--muted);font-size:11px}
+.stat-value{font-size:25px;font-weight:800;margin-top:10px}
+.stat-note{font-size:10px;color:var(--muted);margin-top:5px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 14px}
+.section-head h2{font-size:17px;margin:0}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap}
+.toolbar input{max-width:260px}
+.customer-list{display:flex;flex-direction:column;gap:9px}
+.customer-row{display:grid;grid-template-columns:minmax(180px,1.5fr) minmax(100px,.8fr) minmax(110px,.8fr) auto;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px}
+.profile{display:flex;align-items:center;gap:11px;min-width:0}
+.avatar{width:43px;height:43px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;background:#244c3d;color:#b8f4d9;font-weight:800;font-size:14px;border:1px solid #36775c}
+.avatar.large{width:66px;height:66px;font-size:21px}
+.person-name{font-size:13px;font-weight:700;overflow-wrap:anywhere}
+.person-sub{font-size:11px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}
+.row-label{font-size:10px;color:var(--muted);margin-bottom:5px}
+.row-value{font-size:12px;font-weight:700}
+.pill{display:inline-block;border-radius:20px;padding:6px 9px;font-size:10px;background:#29342f;color:#c4d2ca}
+.pill.good{background:#153c2d;color:#8ce4b8}
+.pill.wait{background:#42371e;color:#f0cf80}
+.pill.bad{background:#482727;color:#ffaaaa}
+.empty{padding:35px;text-align:center;color:var(--muted);border:1px dashed #34443d;border-radius:13px;font-size:13px}
+.detail-head{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.detail-head h2{margin:0 0 5px;font-size:20px}
+.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info{background:#0d1512;border:1px solid var(--line);padding:13px;border-radius:10px;min-width:0}
+.info label{display:block;color:var(--muted);font-size:10px;margin-bottom:7px}
+.info strong{font-size:13px;overflow-wrap:anywhere}
+.control-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+.control{background:#0d1512;border:1px solid var(--line);border-radius:12px;padding:14px}
+.control label{font-size:11px;color:var(--muted);display:block;margin-bottom:9px}
+.control select{padding:10px;font-size:12px}
+.password-box{background:#0d1512;border:1px solid var(--line);border-radius:12px;padding:15px;margin-top:15px}
+.password-box input{margin:9px 0}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+.notice{background:#18372b;border:1px solid #285b45;color:#b6f1d5;border-radius:10px;padding:12px;font-size:12px;line-height:1.5;margin:12px 0}
+.separator{height:1px;background:var(--line);margin:20px 0}
+.amount{font-size:29px;font-weight:800;margin:8px 0}
+.customer-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.customer-nav button{background:#17231e;color:var(--muted);border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-size:12px}
+.customer-nav button.active{color:#baf4d8;border-color:#317557;background:#19372b}
+.support-link{color:var(--green);text-decoration:none;font-size:13px}
+.calculation{background:#0d1512;border:1px solid #34443d;border-radius:12px;padding:15px;margin-top:14px}
+.calculation-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}
+.calculation-row:last-child{border-bottom:0}
+.calculation-row strong{text-align:right}
+.calculation-total{color:#8ce4b8;font-weight:800}
+footer{text-align:center;color:#62736a;font-size:10px;padding:25px}
+@media(max-width:760px){
+ .page{padding:20px 13px 45px}
+ .topbar{padding:0 13px}
+ .top-user{display:none}
+ .grid{grid-template-columns:repeat(2,1fr);gap:9px}
+ .stat{padding:13px}
+ .stat-value{font-size:21px}
+ .customer-row{grid-template-columns:1fr auto;gap:12px}
+ .customer-row .row-block{padding-left:54px}
+ .customer-row .row-action{grid-column:2;grid-row:1}
+ .customer-row .row-amount{grid-column:1;grid-row:2}
+ .customer-row .row-status{grid-column:2;grid-row:2;text-align:right}
+ .detail-grid,.control-grid{grid-template-columns:1fr}
+ .section-head{align-items:flex-start;flex-direction:column}
+ .toolbar{width:100%}
+ .toolbar input{max-width:none;flex:1}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+ <div class="brand">
+  <div class="brand-mark">S</div>
+  <div>SHAREKATI LOANS<small>Simple. Flexible. Accessible.</small></div>
+ </div>
+ <div class="top-right">
+  <span class="top-user" id="topUser"></span>
+  <button class="btn secondary small hidden" id="logoutBtn" onclick="logout()">Log out</button>
+ </div>
+</header>
+
+<main class="page">
+
+<section id="authScreen" class="auth-wrap">
+ <div class="auth-card">
+  <h1 id="authTitle">Welcome to Sharekati</h1>
+  <p class="muted" id="authDescription">A simple and flexible loan application experience.</p>
+
+  <div class="tabs">
+   <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+   <button id="registerTab" onclick="showRegister()">Create account</button>
+  </div>
+
+  <div id="loginForm">
+   <div class="field">
+    <label>Login as</label>
+    <select id="loginRole">
+     <option value="customer">Customer</option>
+     <option value="admin">Administrator</option>
+    </select>
+   </div>
+   <div class="field">
+    <label>Username</label>
+    <input id="loginUsername" placeholder="Enter username" autocomplete="username">
+   </div>
+   <div class="field">
+    <label>Password</label>
+    <input id="loginPassword" type="password" placeholder="Enter password" autocomplete="current-password">
+   </div>
+   <button class="btn full" onclick="login()">Login to account</button>
+   <p id="loginMessage" class="muted"></p>
+   <p class="muted">New here? <button class="text-btn" onclick="showRegister()">Create an account</button></p>
+  </div>
+
+  <div id="registerForm" class="hidden">
+   <div class="field">
+    <label>Full name as shown on your ID</label>
+    <input id="regName" placeholder="Full name">
+   </div>
+   <div class="field">
+    <label>Country</label>
+    <select id="regCountry" onchange="updateCurrency();updateLoanPreview()">
+     <option value="Uganda">Uganda</option>
+     <option value="South Sudan">South Sudan</option>
+    </select>
+   </div>
+   <div class="field">
+    <label>Phone number</label>
+    <input id="regPhone" placeholder="Phone number">
+   </div>
+   <div class="field">
+    <label>Requested loan amount</label>
+    <input id="regLoan" type="number" min="1" placeholder="Enter amount" oninput="updateLoanPreview()">
+    <p class="muted" id="minimumText">Minimum: 163,623 UGX</p>
+   </div>
+
+   <div class="calculation" id="registrationCalculation">
+    <strong style="font-size:13px">Loan calculation</strong>
+    <div class="calculation-row"><span>Requested loan</span><strong id="previewLoan">—</strong></div>
+    <div class="calculation-row"><span>Qualification fee (29%) paid separately</span><strong id="previewFee">—</strong></div>
+    <div class="calculation-row"><span>Customer receives after approval</span><strong id="previewReceive">—</strong></div>
+    <div class="calculation-row"><span>Repayment period</span><strong id="previewDuration">—</strong></div>
+    <div class="calculation-row"><span>Total principal to repay (0% interest)</span><strong id="previewRepay">—</strong></div>
+    <p class="muted">The qualification fee is paid separately. It is not deducted from the loan amount.</p>
+   </div>
+
+   <div class="field">
+    <label>Create username</label>
+    <input id="regUsername" placeholder="Username">
+   </div>
+   <div class="field">
+    <label>Create password</label>
+    <input id="regPassword" type="password" placeholder="Password">
+   </div>
+   <div class="field">
+    <label>Confirm password</label>
+    <input id="regConfirm" type="password" placeholder="Confirm password">
+   </div>
+   <button class="btn full" onclick="register()">Create customer account</button>
+   <p id="registerMessage" class="muted"></p>
+   <p class="muted">Already registered? <button class="text-btn" onclick="showLogin()">Login</button></p>
+  </div>
+ </div>
+</section>
+
+<section id="adminScreen" class="hidden">
+ <div class="hero">
+  <h1>Administrator overview</h1>
+  <p class="muted">Manage customer accounts, applications, payment reviews and identity verification.</p>
+ </div>
+
+ <div class="grid">
+  <div class="stat"><div class="stat-label">Registered customers</div><div class="stat-value" id="totalCustomers">0</div><div class="stat-note">All customer accounts</div></div>
+  <div class="stat"><div class="stat-label">Applications</div><div class="stat-value" id="totalApplications">0</div><div class="stat-note">Total loan applications</div></div>
+  <div class="stat"><div class="stat-label">Pending payments</div><div class="stat-value" id="pendingPayments">0</div><div class="stat-note">Awaiting review</div></div>
+  <div class="stat"><div class="stat-label">Pending KYC</div><div class="stat-value" id="pendingKyc">0</div><div class="stat-note">Identity reviews</div></div>
+ </div>
+
+ <div class="section-head">
+  <div><h2>Customer management</h2><p class="muted">Select a customer to open their full profile.</p></div>
+  <div class="toolbar">
+   <input id="customerSearch" placeholder="Search name, username or phone..." oninput="renderCustomers()">
+   <select id="customerFilter" onchange="renderCustomers()" style="width:auto">
+    <option value="all">All customers</option>
+    <option value="pending">Pending applications</option>
+    <option value="eligible">Eligible</option>
+    <option value="verified">Verified payment</option>
+   </select>
+  </div>
+ </div>
+ <div id="customerList" class="customer-list"></div>
+ <div id="adminDetail" class="panel hidden" style="margin-top:20px"></div>
+</section>
+
+<section id="customerScreen" class="hidden">
+ <div class="hero">
+  <h1 id="customerWelcome">Welcome</h1>
+  <p class="muted">Your Sharekati Loans account overview.</p>
+ </div>
+ <div class="customer-nav">
+  <button class="active" onclick="customerSection('overview',this)">Overview</button>
+  <button onclick="customerSection('application',this)">My application</button>
+  <button onclick="customerSection('account',this)">Account settings</button>
+ </div>
+ <div id="customerContent"></div>
+</section>
+
+</main>
+<footer>Sharekati Loans · Customer account portal</footer>
+
+<script>
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "Sharekati@123";
+const STORAGE_KEY = "sharekatiUsers";
+const WA_LINK = "https://wa.me/256778302547?text=Hello%20Sharekati%20Loans%2C%20I%20need%20help%20with%20my%20application.";
+
+let users = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+let currentUser = null;
+let currentCustomerId = null;
+let currentCustomerSection = "overview";
+
+function saveUsers(){
+ localStorage.setItem(STORAGE_KEY,JSON.stringify(users));
+}
+
+function money(amount,country){
+ return Number(amount||0).toLocaleString() + (country==="Uganda" ? " UGX" : " SSP");
+}
+
+function minimumLoan(country){
+ return country==="Uganda" ? 163623 : 117510;
+}
+
+/* Repayment periods: proposed loan-size bands.
+   These bands are applied to the amount in the selected local currency. */
+function repaymentDays(amount){
+ if(amount<=300000)return 30;
+ if(amount<=500000)return 60;
+ if(amount<=1000000)return 90;
+ if(amount<=2000000)return 120;
+ return 180;
+}
+
+function qualificationFee(amount){
+ return Math.round(Number(amount||0)*0.29);
+}
+
+function initials(name){
+ return String(name||"C").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+}
+
+function escapeHTML(value){
+ return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function makeId(){
+ return "C"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+}
+
+function showScreen(id){
+ ["authScreen","adminScreen","customerScreen"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+}
+
+function showLogin(){
+ document.getElementById("loginForm").classList.remove("hidden");
+ document.getElementById("registerForm").classList.add("hidden");
+ document.getElementById("loginTab").classList.add("active");
+ document.getElementById("registerTab").classList.remove("active");
+ document.getElementById("authTitle").textContent="Welcome back";
+ document.getElementById("authDescription").textContent="Sign in to your Sharekati account.";
+}
+
+function showRegister(){
+ document.getElementById("loginForm").classList.add("hidden");
+ document.getElementById("registerForm").classList.remove("hidden");
+ document.getElementById("loginTab").classList.remove("active");
+ document.getElementById("registerTab").classList.add("active");
+ document.getElementById("authTitle").textContent="Create your account";
+ document.getElementById("authDescription").textContent="Enter your details to begin your application.";
+ updateCurrency();
+ updateLoanPreview();
+}
+
+function updateCurrency(){
+ const country=document.getElementById("regCountry").value;
+ document.getElementById("minimumText").textContent="Minimum: "+money(minimumLoan(country),country);
+}
+
+function updateLoanPreview(){
+ const country=document.getElementById("regCountry").value;
+ const amount=Number(document.getElementById("regLoan").value);
+ const valid=amount>=minimumLoan(country);
+ document.getElementById("previewLoan").textContent=amount>0?money(amount,country):"—";
+ document.getElementById("previewFee").textContent=amount>0?money(qualificationFee(amount),country):"—";
+ document.getElementById("previewReceive").textContent=valid?money(amount,country):"—";
+ document.getElementById("previewDuration").textContent=valid?repaymentDays(amount)+" days":"—";
+ document.getElementById("previewRepay").textContent=valid?money(amount,country):"—";
+}
+
+function register(){
+ const name=document.getElementById("regName").value.trim();
+ const country=document.getElementById("regCountry").value;
+ const phone=document.getElementById("regPhone").value.trim();
+ const loan=Number(document.getElementById("regLoan").value);
+ const username=document.getElementById("regUsername").value.trim();
+ const password=document.getElementById("regPassword").value;
+ const confirm=document.getElementById("regConfirm").value;
+ const min=minimumLoan(country);
+ const msg=document.getElementById("registerMessage");
+
+ if(!name||!phone||!username||!password||!loan){msg.textContent="Please complete all fields.";return;}
+ if(loan<min){msg.textContent="The requested amount is below the minimum for this country.";return;}
+ if(password!==confirm){msg.textContent="Passwords do not match.";return;}
+ if(password.length<6){msg.textContent="Use a password with at least 6 characters.";return;}
+ if(username.toLowerCase()===ADMIN_USER){msg.textContent="That username is unavailable.";return;}
+ if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){msg.textContent="That username is already registered.";return;}
+
+ const user={
+  id:makeId(),name,country,phone,loan,username,password,
+  initialPassword:false,
+  fee:qualificationFee(loan),
+  repaymentDays:repaymentDays(loan),
+  paymentStatus:"Not recorded",
+  kycStatus:"Not submitted",
+  eligibility:"Pending",
+  refundStatus:"Not applicable",
+  idType:"",idNumber:"",idFilename:"",
+  created:new Date().toISOString()
+ };
+
+ users.push(user);
+ saveUsers();
+ document.getElementById("loginUsername").value=username;
+ showLogin();
+ document.getElementById("loginMessage").textContent="Your account has been created. Please log in.";
+}
+
+function login(){
+ const role=document.getElementById("loginRole").value;
+ const username=document.getElementById("loginUsername").value.trim();
+ const password=document.getElementById("loginPassword").value;
+ const msg=document.getElementById("loginMessage");
+
+ if(role==="admin"){
+  if(username===ADMIN_USER&&password===ADMIN_PASS){
+   currentUser={role:"admin"};
+   document.getElementById("topUser").textContent="Administrator";
+   document.getElementById("logoutBtn").classList.remove("hidden");
+   showScreen("adminScreen");
+   renderAdmin();
+  }else msg.textContent="Administrator login details are incorrect.";
+  return;
+ }
+
+ const user=users.find(u=>u.username.toLowerCase()===username.toLowerCase()&&u.password===password);
+ if(!user){msg.textContent="Incorrect username or password.";return;}
+
+ currentUser={role:"customer",id:user.id};
+ document.getElementById("topUser").textContent=user.name;
+ document.getElementById("logoutBtn").classList.remove("hidden");
+ showScreen("customerScreen");
+ renderCustomer();
+}
+
+function logout(){
+ currentUser=null;
+ currentCustomerId=null;
+ document.getElementById("topUser").textContent="";
+ document.getElementById("logoutBtn").classList.add("hidden");
+ document.getElementById("loginPassword").value="";
+ showScreen("authScreen");
+ showLogin();
+}
+
+function renderAdmin(){
+ document.getElementById("totalCustomers").textContent=users.length;
+ document.getElementById("totalApplications").textContent=users.length;
+ document.getElementById("pendingPayments").textContent=users.filter(u=>u.paymentStatus==="Pending verification").length;
+ document.getElementById("pendingKyc").textContent=users.filter(u=>u.kycStatus==="Pending review").length;
+ renderCustomers();
+}
+
+function statusClass(value){
+ if(["Verified","Eligible","Refund completed"].includes(value))return "good";
+ if(["Rejected","Ineligible"].includes(value))return "bad";
+ return "wait";
+}
+
+function renderCustomers(){
+ const list=document.getElementById("customerList");
+ const q=(document.getElementById("customerSearch").value||"").toLowerCase();
+ const filter=document.getElementById("customerFilter").value;
+
+ let rows=users.filter(u=>{
+  const matches=[u.name,u.username,u.phone,u.country].join(" ").toLowerCase().includes(q);
+  let fits=true;
+  if(filter==="pending")fits=u.eligibility==="Pending";
+  if(filter==="eligible")fits=u.eligibility==="Eligible";
+  if(filter==="verified")fits=u.paymentStatus==="Verified";
+  return matches&&fits;
+ });
+
+ if(!rows.length){
+  list.innerHTML='<div class="empty">No customer accounts found.</div>';
+  return;
+ }
+
+ list.innerHTML=rows.map(u=>`
+  <div class="customer-row">
+   <div class="profile">
+    <div class="avatar">${escapeHTML(initials(u.name))}</div>
+    <div style="min-width:0">
+     <div class="person-name">${escapeHTML(u.name)}</div>
+     <div class="person-sub">@${escapeHTML(u.username)} · ${escapeHTML(u.country)}</div>
+     <div class="person-sub">${escapeHTML(u.phone)}</div>
+    </div>
+   </div>
+   <div class="row-block row-amount"><div class="row-label">Requested loan</div><div class="row-value">${money(u.loan,u.country)}</div></div>
+   <div class="row-block row-status"><div class="row-label">Application</div><span class="pill ${statusClass(u.eligibility)}">${escapeHTML(u.eligibility)}</span></div>
+   <div class="row-action"><button class="btn secondary small" onclick="openCustomer('${u.id}')">View profile</button></div>
+  </div>`).join("");
+}
+
+function openCustomer(id){
+ currentCustomerId=id;
+ const u=users.find(x=>x.id===id);
+ if(!u)return;
+
+ const days=u.repaymentDays||repaymentDays(u.loan);
+ const fee=u.fee??qualificationFee(u.loan);
+
+ const box=document.getElementById("adminDetail");
+ box.classList.remove("hidden");
+ box.innerHTML=`
+  <div class="section-head">
+   <div><h2>Customer profile</h2><p class="muted">Account details and application management</p></div>
+   <button class="btn secondary small" onclick="closeCustomer()">Close profile</button>
+  </div>
+  <div class="detail-head">
+   <div class="avatar large">${escapeHTML(initials(u.name))}</div>
+   <div><h2>${escapeHTML(u.name)}</h2><div class="muted">@${escapeHTML(u.username)} · ${escapeHTML(u.country)}</div><div class="muted">${escapeHTML(u.phone)}</div></div>
+  </div>
+  <div class="detail-grid">
+   <div class="info"><label>Requested loan</label><strong>${money(u.loan,u.country)}</strong></div>
+   <div class="info"><label>Qualification fee (29%) — paid separately</label><strong>${money(fee,u.country)}</strong></div>
+   <div class="info"><label>Amount customer receives after approval</label><strong>${money(u.loan,u.country)}</strong></div>
+   <div class="info"><label>Total principal to repay (0% interest)</label><strong>${money(u.loan,u.country)}</strong></div>
+   <div class="info"><label>Repayment period</label><strong>${days} days</strong></div>
+   <div class="info"><label>Registration date</label><strong>${new Date(u.created).toLocaleString()}</strong></div>
+   <div class="info"><label>Country</label><strong>${escapeHTML(u.country)}</strong></div>
+   <div class="info"><label>Phone number</label><strong>${escapeHTML(u.phone)}</strong></div>
+   <div class="info"><label>ID type</label><strong>${escapeHTML(u.idType||"Not submitted")}</strong></div>
+   <div class="info"><label>ID number</label><strong>${escapeHTML(u.idNumber||"Not submitted")}</strong></div>
+   <div class="info"><label>Selected document filename</label><strong>${escapeHTML(u.idFilename||"No filename recorded")}</strong></div>
+   <div class="info"><label>Password status</label><strong>${u.initialPassword?"Initial password awaiting customer change":"Customer password active"}</strong></div>
+  </div>
+  <p class="muted">The qualification fee is separate from the loan. It is not deducted from the disbursement amount.</p>
+  <div class="separator"></div>
+  <h2 style="font-size:16px">Application controls</h2>
+  <div class="control-grid">
+   ${statusControl("Payment status","paymentStatus",u.paymentStatus,["Not recorded","Pending verification","Verified","Rejected"])}
+   ${statusControl("KYC status","kycStatus",u.kycStatus,["Not submitted","Pending review","Verified","Rejected"])}
+   ${statusControl("Eligibility","eligibility",u.eligibility,["Pending","Eligible","Ineligible"])}
+   ${statusControl("Refund status","refundStatus",u.refundStatus,["Not applicable","Refund pending","Refund completed"])}
+  </div>
+  <div class="actions"><button class="btn" onclick="saveCustomerStatuses()">Save status changes</button></div>
+  <div class="separator"></div>
+  <h2 style="font-size:16px">Administrator password reset</h2>
+  <p class="muted">Set a temporary password for this customer. You can view and communicate the initial password to them.</p>
+  <div class="password-box">
+   <label class="muted">New temporary password</label>
+   <input id="temporaryPassword" placeholder="Enter a temporary password">
+   <div class="actions">
+    <button class="btn" onclick="resetCustomerPassword()">Set initial password</button>
+    <button class="btn secondary" onclick="generateTemporaryPassword()">Generate password</button>
+   </div>
+   <div id="passwordResult"></div>
+  </div>
+  <div class="separator"></div>
+  <div class="actions">
+   <button class="btn secondary" onclick="copyCustomerDetails()">Copy customer details</button>
+   <button class="btn danger" onclick="deleteCustomer('${u.id}')">Delete customer account</button>
+  </div>`;
+
+ box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function statusControl(label,key,value,options){
+ return `<div class="control"><label>${label}</label><select id="status_${key}">${options.map(o=>`<option ${o===value?"selected":""}>${o}</option>`).join("")}</select></div>`;
+}
+
+function closeCustomer(){
+ document.getElementById("adminDetail").classList.add("hidden");
+ currentCustomerId=null;
+}
+
+function saveCustomerStatuses(){
+ const u=users.find(x=>x.id===currentCustomerId);
+ if(!u)return;
+
+ ["paymentStatus","kycStatus","eligibility","refundStatus"].forEach(k=>{
+  u[k]=document.getElementById("status_"+k).value;
+ });
+
+ saveUsers();
+ renderAdmin();
+ openCustomer(u.id);
+ alert("Customer application statuses saved.");
+}
+
+function generateTemporaryPassword(){
+ const chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#";
+ let pass="";
+ for(let i=0;i<10;i++)pass+=chars[Math.floor(Math.random()*chars.length)];
+ document.getElementById("temporaryPassword").value=pass;
+}
+
+function resetCustomerPassword(){
+ const u=users.find(x=>x.id===currentCustomerId);
+ if(!u)return;
+
+ const pass=document.getElementById("temporaryPassword").value.trim();
+ if(pass.length<6){
+  alert("Enter a temporary password with at least 6 characters.");
+  return;
+ }
+
+ u.password=pass;
+ u.initialPassword=true;
+ saveUsers();
+
+ document.getElementById("passwordResult").innerHTML=`
+  <div class="notice">
+   <strong>Initial password set successfully.</strong><br>
+   Username: ${escapeHTML(u.username)}<br>
+   Initial password: <strong>${escapeHTML(pass)}</strong><br>
+   Tell the customer to log in using these details and change their password in Account settings.
+  </div>
+  <button class="btn secondary small" onclick="copyTemporaryPassword()">Copy initial password</button>`;
+}
+
+function copyTemporaryPassword(){
+ const u=users.find(x=>x.id===currentCustomerId);
+ if(!u)return;
+ copyText("Username: "+u.username+"\nInitial password: "+u.password);
+}
+
+function copyCustomerDetails(){
+ const u=users.find(x=>x.id===currentCustomerId);
+ if(!u)return;
+ copyText("Name: "+u.name+"\nUsername: "+u.username+"\nPhone: "+u.phone+"\nCountry: "+u.country+"\nLoan: "+money(u.loan,u.country));
+}
+
+function copyText(value){
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+  navigator.clipboard.writeText(value).then(()=>alert("Copied.")).catch(()=>prompt("Copy this text:",value));
+ }else prompt("Copy this text:",value);
+}
+
+function deleteCustomer(id){
+ const u=users.find(x=>x.id===id);
+ if(!u)return;
+ if(!confirm("Delete the account for "+u.name+"?"))return;
+
+ users=users.filter(x=>x.id!==id);
+ saveUsers();
+ document.getElementById("adminDetail").classList.add("hidden");
+ currentCustomerId=null;
+ renderAdmin();
+}
+
+function currentCustomer(){
+ return users.find(u=>u.id===currentUser?.id);
+}
+
+function renderCustomer(){
+ const u=currentCustomer();
+ if(!u){logout();return;}
+ document.getElementById("customerWelcome").textContent="Welcome, "+u.name;
+ customerSection(currentCustomerSection);
+}
+
+function customerSection(section,button){
+ currentCustomerSection=section;
+ document.querySelectorAll(".customer-nav button").forEach(b=>b.classList.remove("active"));
+
+ if(button)button.classList.add("active");
+ else{
+  const buttons=document.querySelectorAll(".customer-nav button");
+  const index={overview:0,application:1,account:2}[section];
+  if(buttons[index])buttons[index].classList.add("active");
+ }
+
+ const u=currentCustomer();
+ if(!u)return;
+
+ const fee=u.fee??qualificationFee(u.loan);
+ const days=u.repaymentDays||repaymentDays(u.loan);
+ const content=document.getElementById("customerContent");
+
+ if(section==="overview"){
+  content.innerHTML=`
+   <div class="grid">
+    <div class="stat"><div class="stat-label">Requested loan</div><div class="stat-value" style="font-size:19px">${money(u.loan,u.country)}</div></div>
+    <div class="stat"><div class="stat-label">Qualification fee (29%)</div><div class="stat-value" style="font-size:19px">${money(fee,u.country)}</div></div>
+    <div class="stat"><div class="stat-label">Repayment period</div><div class="stat-value" style="font-size:19px">${days} days</div></div>
+    <div class="stat"><div class="stat-label">Total to repay</div><div class="stat-value" style="font-size:19px">${money(u.loan,u.country)}</div></div>
+   </div>
+   <div class="panel">
+    <h2 style="font-size:17px">Application summary</h2>
+    <p class="muted">Your application information and current review progress.</p>
+    <div class="detail-grid">
+     <div class="info"><label>Application status</label><strong>${escapeHTML(u.eligibility)}</strong></div>
+     <div class="info"><label>Payment status</label><strong>${escapeHTML(u.paymentStatus)}</strong></div>
+     <div class="info"><label>Identity verification</label><strong>${escapeHTML(u.kycStatus)}</strong></div>
+     <div class="info"><label>Refund status</label><strong>${escapeHTML(u.refundStatus)}</strong></div>
+    </div>
+    <div class="separator"></div>
+    <a class="support-link" href="${WA_LINK}" target="_blank">Contact Help & Support on WhatsApp →</a>
+   </div>`;
+ }
+
+ if(section==="application"){
+  content.innerHTML=`
+   <div class="panel">
+    <h2 style="font-size:17px">My loan application</h2>
+    <div class="calculation">
+     <strong style="font-size:13px">Your loan and repayment calculation</strong>
+     <div class="calculation-row"><span>Requested loan</span><strong>${money(u.loan,u.country)}</strong></div>
+     <div class="calculation-row"><span>Qualification fee (29%), paid separately</span><strong>${money(fee,u.country)}</strong></div>
+     <div class="calculation-row"><span>Amount you receive after approval</span><strong>${money(u.loan,u.country)}</strong></div>
+     <div class="calculation-row"><span>Repayment period</span><strong>${days} days</strong></div>
+     <div class="calculation-row"><span>Total principal to repay (0% interest)</span><strong class="calculation-total">${money(u.loan,u.country)}</strong></div>
+    </div>
+    <p class="muted">The qualification fee is paid separately before disbursement. It is not deducted from your approved loan amount.</p>
+    <div class="separator"></div>
+    <h3 style="font-size:14px">Qualification payment details</h3>
+    <p class="muted">Qualification fee to pay: <strong>${money(fee,u.country)}</strong><br>Payment number: <strong>+256 778 302 547</strong><br>Account name: <strong>EMMANUEL CHEMOS</strong></p>
+    <p class="muted">Payment status: <span class="pill ${statusClass(u.paymentStatus)}">${escapeHTML(u.paymentStatus)}</span></p>
+    <div class="separator"></div>
+    <h3 style="font-size:14px">Identity verification</h3>
+    <div class="field"><label>ID type</label>
+     <select id="idType">
+      <option value="">Choose ID type</option>
+      <option>National ID</option><option>Passport</option><option>Driver's License</option>
+     </select>
+    </div>
+    <div class="field"><label>ID number</label><input id="idNumber" placeholder="Enter ID number" value="${escapeHTML(u.idNumber)}"></div>
+    <div class="field"><label>Upload identity document</label><input id="idFile" type="file" accept="image/*,.pdf"></div>
+    <button class="btn" onclick="submitKyc()">Submit identity details</button>
+    <p class="muted">KYC status: ${escapeHTML(u.kycStatus)}</p>
+   </div>`;
+
+  if(u.idType)document.getElementById("idType").value=u.idType;
+ }
+
+ if(section==="account"){
+  content.innerHTML=`
+   <div class="panel">
+    <h2 style="font-size:17px">Account settings</h2>
+    <div class="detail-grid">
+     <div class="info"><label>Full name</label><strong>${escapeHTML(u.name)}</strong></div>
+     <div class="info"><label>Username</label><strong>${escapeHTML(u.username)}</strong></div>
+     <div class="info"><label>Phone number</label><strong>${escapeHTML(u.phone)}</strong></div>
+     <div class="info"><label>Country</label><strong>${escapeHTML(u.country)}</strong></div>
+    </div>
+    ${u.initialPassword?'<div class="notice">You are using an initial password provided by the administrator. Please change it now.</div>':''}
+    <div class="separator"></div>
+    <h3 style="font-size:14px">Change password</h3>
+    <div class="field"><label>Current password</label><input id="oldPassword" type="password" placeholder="Current password"></div>
+    <div class="field"><label>New password</label><input id="newPassword" type="password" placeholder="New password"></div>
+    <div class="field"><label>Confirm new password</label><input id="confirmNewPassword" type="password" placeholder="Confirm new password"></div>
+    <button class="btn" onclick="changeCustomerPassword()">Update password</button>
+    <p id="changePasswordMessage" class="muted"></p>
+   </div>`;
+ }
+}
+
+function submitKyc(){
+ const u=currentCustomer();
+ if(!u)return;
+
+ const type=document.getElementById("idType").value;
+ const number=document.getElementById("idNumber").value.trim();
+ const file=document.getElementById("idFile").files[0];
+
+ if(!type||!number){
+  alert("Enter your ID type and ID number.");
+  return;
+ }
+
+ u.idType=type;
+ u.idNumber=number;
+ if(file)u.idFilename=file.name;
+ u.kycStatus="Pending review";
+
+ saveUsers();
+ renderCustomer();
+ alert("Identity details submitted for review.");
+}
+
+function changeCustomerPassword(){
+ const u=currentCustomer();
+ if(!u)return;
+
+ const old=document.getElementById("oldPassword").value;
+ const next=document.getElementById("newPassword").value;
+ const confirmPass=document.getElementById("confirmNewPassword").value;
+ const msg=document.getElementById("changePasswordMessage");
+
+ if(old!==u.password){msg.textContent="Your current password is incorrect.";return;}
+ if(next.length<6){msg.textContent="New password must contain at least 6 characters.";return;}
+ if(next!==confirmPass){msg.textContent="The new passwords do not match.";return;}
+
+ u.password=next;
+ u.initialPassword=false;
+ saveUsers();
+ msg.textContent="Password changed successfully.";
+}
+</script>
+</body>
+</html>
